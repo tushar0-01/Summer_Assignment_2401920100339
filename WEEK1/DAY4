@@ -1,0 +1,109 @@
+// Matrix Diagonal Sum
+
+class Solution {
+    public int diagonalSum(int[][] mat) {
+        int i=0;
+        int j=0;
+        int n=mat.length;
+        int sum=0;
+        while(i<n){
+            sum+=mat[i][j];
+            i++;
+            j++;
+        }
+        i=0;
+        j=n-1;
+        while(i<n){
+            if(i!=j){
+                sum+=mat[i][j];
+            }
+            i++;
+            j--;
+        }
+        return sum;
+    }
+}
+
+// Reshape the Matrix
+
+class Solution {
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        int m=mat.length;
+        int n=mat[0].length;
+        if((m*n)<(r*c) || (m*n)>(r*c)){
+            return mat;
+        }
+        if(m==r && n==c){
+            return mat;
+        }
+        int[][] newmat=new int[r][c];
+        int i0=0;
+        int j0=0;
+        int i1=0;
+        int j1=0;
+        while(i0<m && i1<r){
+            while(j0<n && j1<c){
+                newmat[i1][j1]=mat[i0][j0];
+                j0++;
+                j1++;
+            }
+            if(j1==c){
+                j1=0;
+                i1++;
+            }
+            if(j0==n){
+                j0=0;
+                i0++;
+            }
+        }
+        return newmat;
+    }
+}
+
+// Spiral Matrix
+
+class Solution {
+    public List<Integer> spiralOrder(int[][] mat) {
+        int i=0;
+        int j=0;
+        int top=0;
+        int bottom=mat.length-1;
+        int left=0;
+        int right=mat[0].length-1;
+        List<Integer> list=new ArrayList<>();
+        while(top<=bottom && left<=right){
+            while(j<=right){
+                list.add(mat[i][j]);
+                j++;
+            }
+            top++;
+            i=top;
+            j=right;
+            while(i<=bottom){
+                list.add(mat[i][j]);
+                i++;
+            }
+            right--;
+            j=right;
+            i=bottom;
+            if(top<=bottom){
+            while(j>=left){
+                list.add(mat[i][j]);
+                j--;
+            }
+            bottom--;
+            i=bottom;
+            j=left;}
+            if(left<=right){
+            while(i>=top){
+                list.add(mat[i][j]);
+                i--;
+            }
+            left++;
+            j=left;
+            i=top;}
+        }
+        return list;
+
+    }
+}
