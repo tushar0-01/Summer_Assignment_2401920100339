@@ -1,0 +1,83 @@
+// Longest Substring without repeating characters
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashSet<Character> set = new HashSet<>();
+        int left = 0, right = 0;
+        int max = 0;
+        while (right < s.length()) {
+            char ch = s.charAt(right);
+             if (!set.contains(ch)) {
+                set.add(ch);
+                max = Math.max(max, right - left + 1);
+                right++;
+            } else {
+                set.remove(s.charAt(left));
+                left++;
+            }
+        }
+        return max;
+    }
+}
+
+//Permutation in String
+
+class Solution {
+    private boolean matches(int[] a, int[] b) {
+        for (int i = 0; i < 26; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean checkInclusion(String s1, String s2) {
+         int n = s1.length();
+        int m = s2.length();
+        if (n > m) {
+            return false;
+        }
+        int[] s1Freq = new int[26];
+        int[] windowFreq = new int[26];
+        for (int i = 0; i < n; i++) {
+            s1Freq[s1.charAt(i) - 'a']++;
+            windowFreq[s2.charAt(i) - 'a']++;
+        }
+         if (matches(s1Freq, windowFreq)) {
+            return true;
+        }
+        for (int i = n; i < m; i++) {
+            windowFreq[s2.charAt(i) - 'a']++;   
+            windowFreq[s2.charAt(i - n) - 'a']--;       
+            if (matches(s1Freq, windowFreq)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+// Find All Anagrams in a String
+
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        if (p.length() > s.length()) return ans;
+        int[] pf = new int[26];
+        int[] wf = new int[26];
+        int k = p.length();
+        for (int i = 0; i < k; i++) {
+            pf[p.charAt(i) - 'a']++;
+            wf[s.charAt(i) - 'a']++;
+        }
+        if (Arrays.equals(pf, wf)) ans.add(0);
+        for (int i = k; i < s.length(); i++) {
+            wf[s.charAt(i) - 'a']++;
+            wf[s.charAt(i - k) - 'a']--;
+            if (Arrays.equals(pf, wf)) {
+                ans.add(i - k + 1);
+            }
+        }
+        return ans;
+    }
+}
