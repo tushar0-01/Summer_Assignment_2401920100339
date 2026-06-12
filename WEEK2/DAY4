@@ -1,0 +1,86 @@
+// Reverse Words in a String III
+
+class Solution {
+    public String reverse(String s,int start,int end){
+        String str="";
+        while(end>=start){
+            str+=s.charAt(end);
+            end--;
+        }
+        return str+" ";
+    }
+    public String reverseWords(String s) {
+        int l=s.length();
+        if(l==1) return s;
+        StringBuilder sb=new StringBuilder();
+        int i=0;
+        int j=0;
+        while(j<l){
+            while(j<l && s.charAt(j)!=' '){
+                j++;
+            }
+            sb.append(reverse(s,i,j-1));
+            i=j+1;
+            j++;
+        }
+        sb.deleteCharAt(l);
+        return sb.toString();
+    }
+}
+
+//Decode String
+
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> stringStack = new Stack<>();
+        String currentString = "";
+        int currentNum = 0;
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                currentNum = currentNum * 10 + (ch - '0');
+            }
+            else if (ch == '[') {
+                countStack.push(currentNum);
+                stringStack.push(currentString);
+                currentNum = 0;
+                currentString = "";
+            }
+            else if (ch == ']') {
+                int repeat = countStack.pop();
+                String previous = stringStack.pop();
+                StringBuilder temp = new StringBuilder(previous);
+                for (int i = 0; i < repeat; i++) {
+                    temp.append(currentString);
+                }
+                currentString = temp.toString();
+            }
+            else {
+                currentString += ch;
+            }
+        }
+        return currentString;
+    }
+}
+
+// Generate Parentheses
+
+class Solution {
+    private void backtrack(List<String> result, String current,int open, int close, int n) {
+        if (current.length() == 2 * n) {
+            result.add(current);
+            return;
+        }
+        if (open < n) {
+            backtrack(result, current + "(", open + 1, close, n);
+        }
+        if (close < open) {
+            backtrack(result, current + ")", open, close + 1, n);
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        backtrack(result, "", 0, 0, n);
+        return result;
+    }
+}
