@@ -1,0 +1,102 @@
+// Group Anagrams
+
+class Solution {
+    private boolean isAnagram(String s1, String s2) {
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        char[] arr1 = s1.toCharArray();
+        char[] arr2 = s2.toCharArray();
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        return Arrays.equals(arr1, arr2);
+    }    
+    public List<List<String>> groupAnagrams(String[] strs) {
+         List<List<String>> result = new ArrayList<>();
+        boolean[] visited = new boolean[strs.length];
+        for (int i = 0; i < strs.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+            List<String> group = new ArrayList<>();
+            group.add(strs[i]);
+            visited[i] = true;
+            for (int j = i + 1; j < strs.length; j++) {
+
+                if (!visited[j] && isAnagram(strs[i], strs[j])) {
+                    group.add(strs[j]);
+                    visited[j] = true;
+                }
+            }
+            result.add(group);
+        }
+
+        return result;
+    }
+}
+
+// String Compression
+
+class Solution {
+    public int compress(char[] chars) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < chars.length) {
+            char current = chars[i];
+            int count = 0;
+            while (i < chars.length && chars[i] == current) {
+                count++;
+                i++;
+            }
+            sb.append(current);
+            if (count > 1) {
+                sb.append(count);
+            }
+        }
+        for (int j = 0; j < sb.length(); j++) {
+            chars[j] = sb.charAt(j);
+        }
+        return sb.length();
+    }
+}
+
+// Longest Palindromic  Substring
+
+class Solution {
+    public String longestPalindrome(String s) {
+        String ans="";
+        int start=0;
+        int end=0;
+        int l=0;
+        int n=s.length();
+        for(int i=0;i<n;i++){
+            int b=i;int f=i;
+            while(b>=0 && f<n && s.charAt(b)==s.charAt(f)){
+                b--;
+                f++;
+            }
+            int l1=f-b-1;
+
+            //odd
+            int bb=i;
+            int ff=i+1;
+            while(bb>=0 && ff<n && s.charAt(bb)==s.charAt(ff)){
+            bb--;
+            ff++;
+            }
+            int l2=ff-bb-1;
+            if(l1>l){
+                start=b;
+                end=f;
+                l=l1;
+            }
+            if(l2>l){
+                start=bb;
+                end=ff;
+                l=l2;
+            }
+        }
+        return s.substring(start+1,end);
+
+    }
+}
