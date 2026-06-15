@@ -1,0 +1,56 @@
+// Linked List Cycle
+ 
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head==null || head.next==null){
+            return false;
+        }
+        ListNode hare=head;
+        ListNode turtle=head;
+        while(hare!=null && hare.next!=null){
+            hare=hare.next.next;
+            turtle=turtle.next;
+            if(hare==turtle){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+// Reverse Linked List
+ 
+class Solution {
+    ListNode revList(ListNode prev,ListNode curr,ListNode nex){
+        if(nex==null){
+            curr.next=prev;
+            return curr;
+        }
+        curr.next=prev;
+        return revList(curr,nex,nex.next);
+
+    }
+    public ListNode reverseList(ListNode head) {
+        if(head==null || head.next==null){
+            return head;
+        }
+        ListNode prev=null;
+        ListNode curr=head;
+        ListNode nex=head.next;
+        return revList(prev,curr,nex);
+    }
+}
+
+// Middle of the Linked List
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow=head;
+        ListNode fast=head;
+        while( fast!=null && fast.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        return slow;
+    }
+}
