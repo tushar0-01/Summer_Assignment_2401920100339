@@ -1,0 +1,103 @@
+// Merge two sorted lists
+ 
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1==null ){
+            return list2;
+        }
+        if(list2==null){
+            return list1;
+        }
+        ListNode cur1=list1;
+        ListNode cur2=list2;
+        ListNode next2=list2.next;
+        ListNode next1=list1.next;
+        ListNode newhead=new ListNode(14);
+        ListNode curr=newhead;
+        while(cur1!=null && cur2!=null){
+            if(cur1.val<cur2.val){
+                curr.next=cur1;
+                cur1=next1;
+                if(next1!=null)
+                next1=cur1.next;
+            }else{
+                curr.next=cur2;
+                cur2=next2;
+                if(next2!=null)
+                next2=cur2.next;
+            }
+            curr=curr.next;
+        }
+        if(cur1!=null){
+            curr.next=cur1;
+        }
+        if(cur2!=null){
+            curr.next=cur2;
+        }
+        return newhead.next;
+    }
+}
+
+// Remove Nth Node From End of List
+ 
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head.next==null && n==1){
+            return null;
+        }
+        ListNode fast=head;
+        while(n!=0){
+            fast=fast.next;
+            n--;
+        }
+        if(fast==null){
+            return head.next;
+        }
+        ListNode slow=head;
+        while(fast!=null && fast.next!=null){
+            fast=fast.next;
+            slow=slow.next;
+        }
+        slow.next=slow.next.next;
+        return head;
+    }
+}
+
+// Palindrome Linked List
+ 
+class Solution {
+    public ListNode reverse(ListNode head){
+        if(head==null || head.next==null) return head;
+        ListNode prev=null;
+        ListNode curr=head;
+        ListNode next=head.next;
+        while(curr!=null){
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+            if(next!=null)
+            next=next.next;
+        }
+        return prev;
+    }
+    public boolean isPalindrome(ListNode head) {
+        if(head.next==null){
+            return true;
+        }
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null && fast.next!=null && fast.next.next!=null){
+            fast=fast.next.next;
+            slow=slow.next;
+        }
+        slow.next=reverse(slow.next);
+        fast=slow.next;
+        slow=head;
+        while(fast!=null){
+            if(slow.val!=fast.val) return false;
+            slow=slow.next;
+            fast=fast.next;
+        }
+        return true;
+    }
+}
