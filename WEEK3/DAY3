@@ -1,0 +1,93 @@
+//Valid Parentheses
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> st=new Stack<>();
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch=='(' || ch=='{' || ch=='['){
+                st.push(ch);
+            }
+            if(st.size()==0) return false;
+            if(ch==')' && st.pop()!='('){
+                return false;
+            }
+            if(ch=='}' && st.pop()!='{'){
+                return false;
+            }
+            if(ch==']' && st.pop()!='['){
+                return false;
+            }
+        }
+        return st.size()==0;
+    }
+}
+
+// Min Stack
+
+class MinStack {
+    int topp;
+    ArrayList<Integer> arr=new ArrayList<>();
+    ArrayList<Integer> minarr=new ArrayList<>();
+    int min;
+    int l=0;
+    public MinStack() {
+
+    }
+    
+    public void push(int value) {
+        arr.add(value);
+        topp=value;
+        if(l==0) {
+            minarr.add(value);
+        }
+        else{
+        min=minarr.get(l-1);
+        minarr.add(Math.min(value,min));}
+        l++;
+    }
+    
+    public void pop() {
+        arr.remove(l-1);
+        minarr.remove(l-1);
+        if(l-2>=0){
+        topp=arr.get(l-2);}
+        l--;
+    }
+    
+    public int top() {
+        return topp;
+    }
+    
+    public int getMin() {
+        return minarr.get(l-1);
+    }
+}
+
+// Next Greater Element
+
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int l=nums1.length;
+        int[] arr=new int[l];
+        Map<Integer,Integer> map=new HashMap<>();
+        Stack<Integer> st=new Stack<>();
+        for(int i=nums2.length-1;i>=0;i--){
+            int num=nums2[i];
+            while(st.size()!=0 && st.peek()<num){
+                st.pop();
+            }
+            if(st.size()==0){
+                map.put(num,-1);
+            }
+            else if(st.peek()>num){
+                map.put(num,st.peek());
+            }
+            st.push(num);
+        }
+        for(int i=0;i<l;i++){
+            arr[i]=map.get(nums1[i]);
+        }
+        return arr;
+    }
+}
