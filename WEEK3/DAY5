@@ -1,0 +1,80 @@
+// Implement Queue with the Stacks
+
+class MyQueue {
+    Stack<Integer> st1=new Stack<>();
+    Stack<Integer> st2=new Stack<>();
+    public MyQueue() {
+        
+    }
+    
+    public void push(int x) {
+        st1.push(x);
+    }
+    
+    public int pop() {
+        while(st1.size()!=0){
+            st2.push(st1.pop());
+        }
+        int ans=st2.pop();
+        while(st2.size()!=0){
+            st1.push(st2.pop());
+        }
+        return ans;
+    }
+    
+    public int peek() {
+        while(st1.size()!=0){
+            st2.push(st1.pop());
+        }
+        int ans=st2.peek();
+        while(st2.size()!=0){
+            st1.push(st2.pop());
+        }
+        return ans;
+    }
+    
+    public boolean empty() {
+        return st1.size()==0;
+    }
+}
+
+//Number of Recent Calls
+
+class RecentCounter {
+    Queue<Integer> q=new LinkedList<>();
+    public RecentCounter() {
+        
+    }
+    
+    public int ping(int t) {
+        q.add(t);
+        while(!q.isEmpty() && q.peek()<t-3000){
+            q.remove();
+        }  
+        return q.size();
+    }
+}
+
+// Sliding Window Maximum 
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n - k + 1];
+        Deque<Integer> dq = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.pollFirst();
+            }
+            while (!dq.isEmpty() &&
+                   nums[dq.peekLast()] <= nums[i]) {
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+            if (i >= k - 1) {
+                ans[i - k + 1] = nums[dq.peekFirst()];
+            }
+        }
+        return ans;
+    }
+}
