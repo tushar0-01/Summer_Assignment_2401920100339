@@ -1,0 +1,62 @@
+ // Path Sum
+ 
+class Solution {
+    public boolean sum(TreeNode root,int targetSum,int sum){
+        if(root==null){
+            return false;
+        }
+        sum+=root.val;
+        if(root.left==null && root.right==null){
+            return sum==targetSum;
+        }
+        boolean left=sum(root.left,targetSum,sum);
+        boolean right= sum(root.right,targetSum,sum);
+        return left || right;
+        
+    }
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null){
+            return false;
+        }
+        return sum(root,targetSum,0);
+    }
+}
+
+// Diameter of Binary Tree
+ 
+class Solution {
+    public int diameter(TreeNode root, int arr[]){
+        if(root==null) return 0;
+        int left=diameter(root.left,arr);
+        int right=diameter(root.right,arr);
+        int dia=left+right;
+        if(arr[0]<dia) arr[0]=dia;
+        return Math.max(left,right)+1;
+
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        int arr[]=new int[1];
+        arr[0]=-1;
+        diameter(root,arr);
+        return arr[0];
+    }
+}
+
+// Binary Tree Maximum Path Sum
+ 
+class Solution {
+    public int maxsum(TreeNode root,int max[]){
+        if(root==null) return 0;
+        int left=Math.max(0,maxsum(root.left,max));
+        int right=Math.max(0,maxsum(root.right,max));
+        int sum=left+right+root.val;
+        max[0]=Math.max(max[0],sum);
+        return root.val+Math.max(left,right);
+    }
+    public int maxPathSum(TreeNode root) {
+        int max[]=new int[1];
+        max[0]=Integer.MIN_VALUE;
+        maxsum(root,max);
+        return max[0];
+    }
+}
